@@ -1,8 +1,10 @@
 package com.icycodes.springsecurity.service;
 
 import com.icycodes.springsecurity.entity.User;
+import com.icycodes.springsecurity.entity.VerificationToken;
 import com.icycodes.springsecurity.model.UserModel;
 import com.icycodes.springsecurity.repository.UserRepository;
+import com.icycodes.springsecurity.repository.VerificationTokenRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +21,11 @@ public class UserServiceImpl implements UserService{
     private PasswordEncoder passwordEncoder;
 
 
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
+
+
+
     @Override
     public User registerUser(UserModel userModel) {
 
@@ -32,5 +39,14 @@ public class UserServiceImpl implements UserService{
         user = userRepository.save(user);
         log.info("User saved in db");
         return user;
+    }
+
+    @Override
+    public void saveVerificationTokenForUser(String token, User user) {
+
+        VerificationToken verificationToken = new VerificationToken(user,token);
+
+        verificationTokenRepository.save(verificationToken);
+
     }
 }
