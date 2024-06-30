@@ -9,10 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -29,6 +26,15 @@ public class UserController {
         publisher.publishEvent(new RegistrationCompleteEvent(user,applicationUrl(request)));
 
         return "Success";
+    }
+
+    @GetMapping("/verifyRegistration")
+    public String validateVerificationToken(@RequestParam String token ){
+        String result = userService.validateVerificationToken(token);
+        if(result.equalsIgnoreCase("valid")){
+            return "user verified successfully";
+        }
+        return "bad user";
     }
 
     private String applicationUrl(HttpServletRequest request) {
