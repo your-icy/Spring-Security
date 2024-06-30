@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-@Slf4j
 public class RegistrationCompleteEventListener implements ApplicationListener<RegistrationCompleteEvent> {
 
     @Autowired
