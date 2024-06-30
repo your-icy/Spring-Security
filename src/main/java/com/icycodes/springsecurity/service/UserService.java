@@ -1,6 +1,7 @@
 package com.icycodes.springsecurity.service;
 
 import com.icycodes.springsecurity.entity.User;
+import com.icycodes.springsecurity.entity.VerificationToken;
 import com.icycodes.springsecurity.model.UserModel;
 
 public interface UserService {
@@ -9,4 +10,12 @@ public interface UserService {
     void saveVerificationTokenForUser(String token, User user);
 
     String validateVerificationToken(String token);
+
+    VerificationToken generateNewVerificationToken(String oldToken);
+
+    User findUserByEmail(String email);
+
+    void sendPasswordResetTokenToUser(String token, User user);
+
+    String validatePasswordResetToken(String token);
 }
