@@ -32,10 +32,12 @@ public class UserServiceImpl implements UserService{
         User user = User.builder()
                 .firstName(userModel.getFirstName())
                 .lastName(userModel.getLastName())
+                .email(userModel.getEmail())
                 .password(passwordEncoder.encode(userModel.getPassword()))
+                .isDeleted(false)
+                .enabled(false)
                 .role("User")
                 .build();
-
         user = userRepository.save(user);
         log.info("User saved in db");
         return user;
@@ -45,7 +47,6 @@ public class UserServiceImpl implements UserService{
     public void saveVerificationTokenForUser(String token, User user) {
 
         VerificationToken verificationToken = new VerificationToken(user,token);
-
         verificationTokenRepository.save(verificationToken);
 
     }
