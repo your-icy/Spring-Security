@@ -4,6 +4,7 @@ package com.icycodes.springsecurity.config;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,9 +28,12 @@ public class WebSecurity {
 
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers(WHITE_LIST_URLS).permitAll();
-        return httpSecurity.build();
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http.csrf(Customizer.withDefaults())
+                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(request -> {request.requestMatchers(WHITE_LIST_URLS).permitAll();});
+        return http.build();
     }
 
 }
